@@ -1,30 +1,4 @@
-import {h, mount, Component, Text} from 'ink';
+import {h, mount} from 'ink';
+import CommandLine from './src/CommandLine';
 
-class Counter extends Component {
-    constructor() {
-        super();
-        this.state = {
-            index: 0
-        };
-    }
-
-    componentDidMount() {
-        this.timer = this.createIntervalUpdater();
-    }
-
-    render(props, state) {
-        return (
-            <Text green>
-                {state.index} tests passed
-            </Text>
-        );
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    createIntervalUpdater = () => setInterval(() => this.setState({ index: this.state.index + 1 }), 100);
-}
-
-mount(<Counter/>, process.stdout);
+mount(<CommandLine/>, process.stdout);
