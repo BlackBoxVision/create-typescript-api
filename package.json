@@ -1,0 +1,36 @@
+{
+  "name": "create-typescript-api",
+  "version": "1.0.0",
+  "description": "A simple CLI to create a Typescript basic project to develop APIs",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "url": "git+https://github.com/BlackBoxVision/create-typescript-api.git",
+    "type": "git"
+  },
+  "keywords": [
+    "CLI",
+    "TypeScript",
+    "APIs"
+  ],
+  "author": "BlackBox Vision",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BlackBoxVision/create-typescript-api/issues"
+  },
+  "homepage": "https://github.com/BlackBoxVision/create-typescript-api#readme",
+  "dependencies": {
+    "ink": "^0.1.2",
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ],
+    "transform-class-properties",
+    "transform-es2015-modules-commonjs"
+  ]
+}
