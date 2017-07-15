@@ -1,5 +1,6 @@
 import { h, Component, Text } from 'ink';
-import TextInput from 'ink-text-input';
+import PropTypes from 'prop-types';
+import Spinner from 'ink-spinner';
 import readLine from 'readline';
 
 import Conditional from './components/Conditional';
@@ -8,26 +9,32 @@ import FileUtils from './util/File';
 import ZipUtils from './util/Zip';
 
 export default class Cli extends Component {
+    static propTypes = {
+        projectName: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        projectName: 'test'
+    };
+
     state = {
-        query: '',
-        progress: 0,
         error: null,
         result: null,
         projectName: null
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         readLine.emitKeypressEvents(process.stdin);
         process.stdin.setRawMode(true);
+
+        await this.createScaffold(this.props.projectName);
     }
 
     render(props, state) {
         return (
             <Container>
-                <Conditional expression={state.query.length >= 0 && !state.result}>
-                    <Text blue>Insert your project name:</Text>
-                    <br />
-                    <TextInput value={state.query} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+                <Conditional expression={!state.error && !state.result}>
+                    <Spinner green /> Fetching base project from GitHub.
                 </Conditional>
                 <Conditional expression={state.error}>
                     <Text red>
@@ -35,7 +42,7 @@ export default class Cli extends Component {
                     </Text>
                 </Conditional>
                 <Conditional expression={state.result === 'ok'}>
-                    <Text blue>
+                    <Text green>
                         Project {state.projectName} has been created successfully.
                     </Text>
                 </Conditional>
@@ -43,12 +50,7 @@ export default class Cli extends Component {
         );
     }
 
-    handleChange = value =>
-        this.setState(state => ({
-            query: value
-        }));
-
-    handleSubmit = async path => {
+    createScaffold = async path => {
         try {
             const gitHubUrl = 'https://github.com/BlackBoxVision/typescript-hapi-starter/archive/master.zip';
             const gitHubFolderName = 'typescript-hapi-starter-master';
