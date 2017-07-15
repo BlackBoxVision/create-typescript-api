@@ -27,7 +27,7 @@ npm install --save create-typescript-api
 
 - [ ] **Show progress of download**
 - [ ] **Install package.json dependencies**
-- [ ] **Remove Text-Input to use process.argvs (eg: create-typescript-api <project-name>)**
+- [ ] **Remove Text-Input to use process.argvs (eg: create-typescript-api project-name)**
  
 ## Issues
 
