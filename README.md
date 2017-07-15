@@ -21,13 +21,11 @@ npm install --save create-typescript-api
 
 ## Usage
 
-![cli-usage](https://github.com/BlackBoxVision/create-typescript-api/blob/master/media/cmd-usage.gif)
+![cli-usage](https://github.com/BlackBoxVision/create-typescript-api/blob/master/media/cli-usage.gif)
 
 ## TODO 
 
-- [ ] **Show progress of download**
 - [ ] **Install package.json dependencies**
-- [ ] **Remove Text-Input to use process.argvs (eg: create-typescript-api project-name)**
  
 ## Issues
 
