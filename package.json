@@ -2,10 +2,13 @@
   "name": "create-typescript-api",
   "version": "1.0.0",
   "description": "A simple CLI to create a Typescript basic project to develop APIs",
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
-    "start": "./node_modules/.bin/babel-node index.js",
+    "clean": "rimraf ./bin",
+    "compile": "babel ./src -d ./bin",
+    "build": "yarn run clean && yarn run compile",
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --single-quote --write 'src/**/*.js'",
+    "start": "./node_modules/.bin/babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,6 +40,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "prettier": "^1.5.2"
+    "prettier": "^1.5.2",
+    "rimraf": "^2.6.1"
   }
 }

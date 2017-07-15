@@ -1,4 +1,5 @@
 import {h, mount} from 'ink';
-import Cli from './src/Cli';
+
+import Cli from './cli';
 
 mount(<Cli/>, process.stdout);
