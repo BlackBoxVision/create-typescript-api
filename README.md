@@ -21,11 +21,7 @@ npm install --save create-typescript-api
 
 ## Usage
 
-```bash
-create-typescript-api
-```
-
-This will display you an input to introduce the projectName or project path. Hit enter and wait, and then you're good to go!
+![cli-usage](https://github.com/BlackBoxVision/create-typescript-api/blob/master/media/cmd-usage.gif)
 
 ## Issues
 
