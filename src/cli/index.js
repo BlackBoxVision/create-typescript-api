@@ -25,7 +25,7 @@ export default class Cli extends Component {
         return (
             <Container>
                 <Conditional expression={state.query.length >= 0 && !state.result}>
-                    <Text green>Insert your project name:</Text>
+                    <Text blue>Insert your project name:</Text>
                     <br />
                     <TextInput value={state.query} onChange={this.handleChange} onSubmit={this.handleSubmit} />
                 </Conditional>
@@ -35,8 +35,8 @@ export default class Cli extends Component {
                     </Text>
                 </Conditional>
                 <Conditional expression={state.result === 'ok'}>
-                    <Text green>
-                        {state.projectName} has been created.
+                    <Text blue>
+                        Project {state.projectName} has been created successfully.
                     </Text>
                 </Conditional>
             </Container>
@@ -70,5 +70,7 @@ export default class Cli extends Component {
                 error: error
             }));
         }
+
+        setTimeout(() => process.exit(0), 1000);
     };
 }
