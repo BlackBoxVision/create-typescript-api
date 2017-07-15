@@ -21,6 +21,9 @@
     "APIs"
   ],
   "author": "BlackBox Vision",
+  "contributors": [
+    "Jonatan E. Salas <jonatansalas@live.com.ar>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BlackBoxVision/create-typescript-api/issues"
