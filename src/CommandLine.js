@@ -1,10 +1,10 @@
-import {h, Component, Text} from 'ink';
+import { h, Component, Text } from 'ink';
 import TextInput from 'ink-text-input';
-import fetch from 'isomorphic-fetch';
 import readLine from 'readline';
-import fs from 'fs';
 
 import Conditional from './components/Conditional';
+import FileUtils from './util/File';
+import ZipUtils from './util/Zip';
 
 export default class CommandLine extends Component {
     state = {
@@ -24,69 +24,50 @@ export default class CommandLine extends Component {
         return (
             <div>
                 <Conditional expression={state.query.length >= 0 && !state.result}>
-                    <Text green>
-                        Please, insert your project name:
-                    </Text>
-                    <br/>
-                    <TextInput
-                        value={state.query}
-                        onChange={this.handleChange}
-                        onSubmit={this.handleSubmit}
-                    />
+                    <Text green>Insert your project name:</Text>
+                    <br />
+                    <TextInput value={state.query} onChange={this.handleChange} onSubmit={this.handleSubmit} />
                 </Conditional>
                 <Conditional expression={state.error}>
                     <Text red>
                         {state.error}
                     </Text>
                 </Conditional>
-                <Conditional expression={state.result}>
+                <Conditional expression={state.result === 'ok'}>
                     <Text green>
-                        {state.projectName}.zip has been created.
+                        {state.projectName} has been created.
                     </Text>
                 </Conditional>
             </div>
         );
     }
 
-    handleChange = value => this.setState(state => ({
-        query: value
-    }));
+    handleChange = value =>
+        this.setState(state => ({
+            query: value
+        }));
 
-    handleSubmit = async value => {
+    handleSubmit = async path => {
         try {
-            const stream = await this.fetchRepository('BlackBoxVision', 'typescript-hapi-starter');
-            const result = await this.writeData(stream, value);
+            const gitHubUrl = 'https://github.com/BlackBoxVision/typescript-hapi-starter/archive/master.zip';
+            const gitHubFolderName = 'typescript-hapi-starter-master';
 
-            if (result) {
-                this.setState(state => ({
-                    projectName: value,
-                    result: result
-                }));
-            }
+            const stream = await ZipUtils.download(gitHubUrl);
 
+            await ZipUtils.writeStream(stream, path);
+            await ZipUtils.extract(path);
+            await ZipUtils.remove(path);
+
+            await FileUtils.renameFolder(gitHubFolderName, path);
+
+            this.setState(state => ({
+                projectName: path,
+                result: 'ok'
+            }));
         } catch (error) {
             this.setState(state => ({
                 error: error
             }));
         }
-    }
-
-    fetchRepository = async (organization, repository) => {
-        const response = await fetch(`https://github.com/${organization}/${repository}/archive/master.zip`, {
-            method: 'GET',
-            headers: {
-                'Accept-Encoding': 'application/zip'
-            }
-        });
-
-        return response.body;
-    }
-
-    writeData = (stream, value) => {
-        return new Promise((resolve, reject) => {
-            stream.pipe(fs.createWriteStream(`${value}.zip`))
-                .on('error', error => reject(error))
-                .on('close', () => resolve('file written'));
-        });
-    }
+    };
 }
