@@ -1,4 +1,4 @@
 import {h, mount} from 'ink';
-import CommandLine from './src/CommandLine';
+import Cli from './src/Cli';
 
-mount(<CommandLine/>, process.stdout);
+mount(<Cli/>, process.stdout);

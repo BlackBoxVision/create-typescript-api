@@ -3,10 +3,11 @@ import TextInput from 'ink-text-input';
 import readLine from 'readline';
 
 import Conditional from './components/Conditional';
+import Container from './components/Container';
 import FileUtils from './util/File';
 import ZipUtils from './util/Zip';
 
-export default class CommandLine extends Component {
+export default class Cli extends Component {
     state = {
         query: '',
         progress: 0,
@@ -22,7 +23,7 @@ export default class CommandLine extends Component {
 
     render(props, state) {
         return (
-            <div>
+            <Container>
                 <Conditional expression={state.query.length >= 0 && !state.result}>
                     <Text green>Insert your project name:</Text>
                     <br />
@@ -38,7 +39,7 @@ export default class CommandLine extends Component {
                         {state.projectName} has been created.
                     </Text>
                 </Conditional>
-            </div>
+            </Container>
         );
     }
 
