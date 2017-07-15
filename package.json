@@ -1,8 +1,11 @@
 {
   "name": "create-typescript-api",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "A simple CLI to create a Typescript basic project to develop APIs",
   "main": "bin/index.js",
+  "bin": {
+    "create-typescript-api": "./bin/index.js"
+  },
   "scripts": {
     "clean": "rimraf ./bin",
     "compile": "babel ./src -d ./bin",
