@@ -1,5 +1,5 @@
 import { h, Component, Text } from 'ink';
-import Progress from 'ink-progress-bar';
+//import Progress from 'ink-progress-bar';
 import PropTypes from 'prop-types';
 import Spinner from 'ink-spinner';
 import readLine from 'readline';
@@ -26,7 +26,8 @@ export default class Cli extends Component {
     state = {
         error: null,
         result: null,
-        projectName: null
+        projectName: null,
+        progress: false
     };
 
     async componentDidMount() {
@@ -42,8 +43,11 @@ export default class Cli extends Component {
 
         return (
             <Container>
-                <Conditional expression={!state.error && !state.result}>
+                <Conditional expression={!state.error && !state.result && !state.progress}>
                     <Spinner green /> Fetching base project from GitHub.
+                </Conditional>
+                <Conditional expression={state.progress}>
+                    <Spinner green /> Unzipping starter project to {props.projectName}
                 </Conditional>
                 <Conditional expression={state.error !== null}>
                     <Text red>
@@ -60,14 +64,19 @@ export default class Cli extends Component {
     }
 
     createScaffold = async path => {
+        const gitHubUrl = 'https://github.com/BlackBoxVision/typescript-hapi-starter/archive/master.zip';
         const gitHubFolderName = 'typescript-hapi-starter-master';
 
         try {
-            const stream = await ZipUtils.download(
-                'https://github.com/BlackBoxVision/typescript-hapi-starter/archive/master.zip'
-            );
+            const stream = await ZipUtils.download(gitHubUrl);
 
-            await ZipUtils.writeStream(stream, path);
+            await ZipUtils.writeStream(stream, path, progress => {
+                //console.info('Progress', JSON.stringify(progress, null, 2));
+
+                this.setState(state => ({
+                    progress: true
+                }));
+            });
 
             if (await FileUtils.exists(path)) {
                 await this.handleError(
@@ -82,7 +91,8 @@ export default class Cli extends Component {
 
                 this.setState(state => ({
                     projectName: path,
-                    result: 'ok'
+                    result: 'ok',
+                    progress: false
                 }));
 
                 this.exitWithDelay(Types.EXIT_WITH_SUCCESS);
@@ -96,7 +106,8 @@ export default class Cli extends Component {
         await FileUtils.remove(path);
 
         this.setState(state => ({
-            error: error
+            error: error,
+            progress: false
         }));
 
         this.exitWithDelay(Types.EXIT_WITH_ERROR);

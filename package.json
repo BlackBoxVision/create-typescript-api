@@ -38,6 +38,7 @@
     "ink-progress-bar": "^2.0.0",
     "ink-spinner": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "progress-stream": "^2.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "unzip": "^0.1.11"
