@@ -34,7 +34,8 @@
   "homepage": "https://github.com/BlackBoxVision/create-typescript-api#readme",
   "dependencies": {
     "commander": "^2.11.0",
-    "ink": "^0.1.2",
+    "ink": "^0.2.1",
+    "ink-progress-bar": "^2.0.0",
     "ink-spinner": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.5.10",

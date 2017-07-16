@@ -32,16 +32,4 @@ export default class ZipUtils {
                 .on('close', _ => resolve('file written'));
         });
     }
-
-    static async remove(path) {
-        return new Promise((resolve, reject) => {
-            fs.unlink(`${path}.zip`, error => {
-                if (error) {
-                    reject(error);
-                }
-
-                resolve();
-            });
-        });
-    }
 }
