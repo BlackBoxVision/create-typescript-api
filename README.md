@@ -1,5 +1,5 @@
 # create-typescript-api
-CLI to generate base project to start developing APIs with TypeScript.
+> CLI to generate a base project based on [typescript-hapi-starter](https://github.com/BlackBoxVision/typescript-hapi-starter).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![npm version](https://badge.fury.io/js/create-typescript-api.svg)](https://badge.fury.io/js/create-typescript-api) [![npm downloads](https://img.shields.io/npm/dm/create-typescript-api.svg)](https://www.npmjs.com/package/create-typescript-api) 
 
@@ -26,6 +26,7 @@ npm install --save create-typescript-api
 ## TODO 
 
 - [ ] **Install package.json dependencies**
+- [ ] **Enable check-list to get starter project from different branches: 'Mongoose', 'Sequelize', 'GraphQL'**
  
 ## Issues
 
