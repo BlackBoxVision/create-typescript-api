@@ -37,9 +37,9 @@ export default class Command extends Component {
 
     render(props, state) {
         const isFetchingFromGitHub = !state.error && !state.result && !state.progress;
-        const hasNoErrors = state.error !== null;
-        const hasResults = state.result === 'ok';
         const isInProgress = state.progress;
+        const hasErrors = state.error !== null;
+        const hasResults = state.result === 'ok';
 
         const projectName = state.projectName || props.projectName;
 
@@ -54,7 +54,7 @@ export default class Command extends Component {
                 <Cli.Conditional expression={isInProgress}>
                     <Spinner green /> Unzipping starter project to {projectName}
                 </Cli.Conditional>
-                <Cli.Conditional expression={hasNoErrors}>
+                <Cli.Conditional expression={hasErrors}>
                     <Text red>
                         {state.error && state.error.message}
                     </Text>
