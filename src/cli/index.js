@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import Spinner from 'ink-spinner';
 import readLine from 'readline';
 
-import Conditional from './components/Conditional';
-import Container from './components/Container';
 import FileUtils from './util/File';
 import ZipUtils from './util/Zip';
+
+import Cli from './components';
 
 const Types = {
     EXIT_WITH_SUCCESS: 0,
     EXIT_WITH_ERROR: 1
 };
 
-export default class Cli extends Component {
+export default class Command extends Component {
     static propTypes = {
         projectName: PropTypes.string.isRequired
     };
@@ -31,35 +31,40 @@ export default class Cli extends Component {
     };
 
     async componentDidMount() {
-        readLine.emitKeypressEvents(process.stdin);
-        process.stdin.setRawMode(true);
-
+        await this.enableKeyPress();
         await this.createScaffold(this.props.projectName);
     }
 
     render(props, state) {
-        //TODO Review
+        const isFetchingFromGitHub = !state.error && !state.result && !state.progress;
+        const hasNoErrors = state.error !== null;
+        const hasResults = state.result === 'ok';
+        const isInProgress = state.progress;
+
+        const projectName = state.projectName || props.projectName;
+
+        //TODO Review If we can use progress
         //<Progress character="=" left={0} right={0} green />
 
         return (
-            <Container>
-                <Conditional expression={!state.error && !state.result && !state.progress}>
+            <Cli.Container>
+                <Cli.Conditional expression={isFetchingFromGitHub}>
                     <Spinner green /> Fetching base project from GitHub.
-                </Conditional>
-                <Conditional expression={state.progress}>
-                    <Spinner green /> Unzipping starter project to {props.projectName}
-                </Conditional>
-                <Conditional expression={state.error !== null}>
+                </Cli.Conditional>
+                <Cli.Conditional expression={isInProgress}>
+                    <Spinner green /> Unzipping starter project to {projectName}
+                </Cli.Conditional>
+                <Cli.Conditional expression={hasNoErrors}>
                     <Text red>
                         {state.error && state.error.message}
                     </Text>
-                </Conditional>
-                <Conditional expression={state.result === 'ok'}>
+                </Cli.Conditional>
+                <Cli.Conditional expression={hasResults}>
                     <Text green>
-                        Project {state.projectName} has been created successfully.
+                        Project {projectName} has been created successfully.
                     </Text>
-                </Conditional>
-            </Container>
+                </Cli.Conditional>
+            </Cli.Container>
         );
     }
 
@@ -91,8 +96,8 @@ export default class Cli extends Component {
 
                 this.setState(state => ({
                     projectName: path,
-                    result: 'ok',
-                    progress: false
+                    progress: false,
+                    result: 'ok'
                 }));
 
                 this.exitWithDelay(Types.EXIT_WITH_SUCCESS);
@@ -106,12 +111,20 @@ export default class Cli extends Component {
         await FileUtils.remove(path);
 
         this.setState(state => ({
-            error: error,
-            progress: false
+            progress: false,
+            error: error
         }));
 
         this.exitWithDelay(Types.EXIT_WITH_ERROR);
     };
 
     exitWithDelay = (type, delay = 1000) => setTimeout(() => process.exit(type), delay);
+
+    enableKeyPress = () =>
+        new Promise(resolve => {
+            readLine.emitKeypressEvents(process.stdin);
+            process.stdin.setRawMode(true);
+
+            resolve();
+        });
 }
