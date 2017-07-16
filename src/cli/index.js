@@ -46,7 +46,9 @@ export default class Cli extends Component {
                     <Spinner green /> Fetching base project from GitHub.
                 </Conditional>
                 <Conditional expression={state.error !== null}>
-                    <Text red>{state.error && state.error.message}</Text>
+                    <Text red>
+                        {state.error && state.error.message}
+                    </Text>
                 </Conditional>
                 <Conditional expression={state.result === 'ok'}>
                     <Text green>
@@ -68,7 +70,10 @@ export default class Cli extends Component {
             await ZipUtils.writeStream(stream, path);
 
             if (await FileUtils.exists(path)) {
-                await this.handleError(`${path}.zip`, new Error('File already exists'));
+                await this.handleError(
+                    `${path}.zip`,
+                    new Error(`Directory ${path} already exists. Please, retry with another <project-name>.`)
+                );
             } else {
                 await ZipUtils.extract(path);
 
